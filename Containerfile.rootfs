@@ -34,10 +34,29 @@ RUN apt install -y \
         libgtk-3-0 \
         python2 \
         python-is-python2 \
+        i2c-tools \
+        bridge-utils \
         libgstreamer1.0-0 \
         libgstreamer-plugins-bad1.0-0 \
-        i2c-tools \
-        bridge-utils
+	libcairo2-dev \
+	libgirepository1.0-dev \
+	libgstreamer-plugins-base1.0-dev \
+	libgstreamer-plugins-bad1.0-dev \
+	gstreamer1.0-plugins-base \
+        gstreamer1.0-plugins-good \
+        gstreamer1.0-plugins-bad \
+        gstreamer1.0-plugins-ugly \
+        gstreamer1.0-libav  \
+        gstreamer1.0-tools \
+        gstreamer1.0-x \
+        gstreamer1.0-alsa \
+        gstreamer1.0-gl \
+        gstreamer1.0-gtk3 \
+        gstreamer1.0-qt5 \
+        gstreamer1.0-pulseaudio \
+        gtk-doc-tools 
+
+        
 
 # Additional tools
 RUN apt install -y \
@@ -67,12 +86,18 @@ RUN apt install -y \
         wpasupplicant \
         parted \
         gdisk \
-        e2fsprogs
+        e2fsprogs \
+        wireless-tools \
+        network-manager \
+        nano \
+        git \
+        python3-venv
 
 # Resize the rootfs
 COPY scripts/resizerootfs.sh /usr/local/bin
 COPY scripts/resizerootfs.service /lib/systemd/system
 RUN systemctl enable resizerootfs.service
+
 
 # Generate locales
 RUN locale-gen en_US.UTF-8
@@ -85,7 +110,11 @@ COPY config/netcfg.yaml /etc/netplan/netcfg.yaml
 # password: jetson
 RUN useradd \
         --create-home \
-        -G sudo \
+        -G "sudo,video,audio,adm,tty, dialout" \
         -p $(openssl passwd -6 jetson) \
         -s /bin/bash \
         jetson
+COPY scripts/add_UAV.sh /home/jetson/
+WORKDIR /home/jetson
+RUN chmod +x add_UAV.sh
+RUN ./add_UAV.sh

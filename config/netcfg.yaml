@@ -3,14 +3,16 @@ network:
   renderer: networkd
   ethernets:
     eth0:
-      dhcp4: true
-  # wifis:
-  #   wlan0:
-  #     dhcp4: true
-  #     dhcp4-overrides:
-  #       use-dns: no
-  #     nameservers:
-  #       addresses: [8.8.8.8,8.8.4.4]
-  #     access-points:
-  #       YOUR_ACCESS_POINT:
-  #         password: WIFI_PASSWORD
+      dhcp4: no
+      addresses:
+      - 192.168.144.20/24
+    # wifis:
+    #   wlan0:
+    #     dhcp4: true
+    #     dhcp4-overrides:
+    #       use-dns: no
+    #     nameservers:
+    #       addresses: [8.8.8.8,8.8.4.4]
+    #     access-points:
+    #       'Tinker':
+    #        password: ***********

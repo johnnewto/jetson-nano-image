@@ -4,16 +4,6 @@
 
 set -e
 
-echo "Building base rootfs"
-
-podman build \
-	--squash-all \
-	--jobs=16 \
-	--arch=arm64 \
-	-f Containerfile.rootfs \
-	-t jetson-nano-base-image
-
-podman save --format docker-dir -o base jetson-nano-base-image
 
 mkdir rootfs
 
